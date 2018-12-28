@@ -25,7 +25,7 @@ public class ArgsParser {
         options.addOption("pe", "parallel enumeration sorting", false, "The parallel enumeration sorting");
         options.addOption("pm", "parallel merge sorting", false, "The parallel merge sorting");
         options.addOption("t", "thread max number", true, "The maximum number of threads that can be created");
-        options.addOption("n", "number of steps", true, "The number that be added on the amount of threads every time");
+        options.addOption("n", "number of steps", true, "The number that be reduced on the amount of threads every time");
 
         options.addOption("s", "source data path", true, "The data source");
         options.addOption("r", "result storage path", true, "The result file");
@@ -42,7 +42,7 @@ public class ArgsParser {
             System.out.println("                  : -pe         enable the parallel enumeration sorting");
             System.out.println("                  : -pm         enable the parallel merge sorting");
             System.out.println("                  : -t          the maximum number of threads that can be created");
-            System.out.println("                  : -n          The number that be added on the amount of threads every time");
+            System.out.println("                  : -n          The number that be reduced on the amount of threads every time");
             System.out.println("                  : -s          input the data source path");
             System.out.println("                  : -r          input the result storage path");
             System.out.println("                  : -h          see the simple user manual");

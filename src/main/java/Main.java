@@ -26,17 +26,21 @@ public class Main {
         int threadMaxNum = argsParser.getThreadMaxNum();
         int step = argsParser.getStep();
 
-        // Obtain the content in the source file
-        FileOperator fileOperator = new FileOperator();
-        ArrayList<Integer> sourceData = fileOperator.obtainSourceArray(inputFile);
-
         switch(sortingKind){
             case S_QUICK:case S_MERGE:case S_ENUM:{
+                // Obtain the content in the source file
+                FileOperator fileOperator = new FileOperator();
+                ArrayList<Integer> sourceData = fileOperator.obtainSourceArray(inputFile);
+
                 SerialSorting sorting = new SerialSorting(sortingKind, sourceData);
                 sorting.sortAsRequired(outputFile);
                 break;
             }
             case P_ENUM:case P_MERGE:case P_QUICK:{
+                // Obtain the content in the source file
+                FileOperator fileOperator = new FileOperator();
+                ArrayList<Integer> sourceData = fileOperator.obtainSourceArray(inputFile);
+
                 for (int threadNum = threadMaxNum; threadNum>0; threadNum-=step) {
                     // Process the serial sorting methods
                     System.out.print(threadNum+": ");

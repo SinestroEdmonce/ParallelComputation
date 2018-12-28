@@ -108,8 +108,6 @@ public class ParallelSorting {
         }
 
         public ArrayList<Integer> sorting(){
-            int lowPos = 0;
-            int highPos = this.data.size()-1;
             this.result = new ArrayList<Integer>(this.data);
 
             // Calculate the program running time
