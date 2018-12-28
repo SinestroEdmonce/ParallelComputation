@@ -163,8 +163,57 @@ public class SerialSorting {
         }
 
         public ArrayList<Integer> sorting(){
-            int pivot = -1;
-            int
+            ArrayList<Integer> result = new ArrayList<Integer>(this.data);
+            sort(this.data, 0, this.data.size()-1, result);
+            return result;
+        }
+
+        private void sort(ArrayList<Integer> arrayList, int left,int right, ArrayList<Integer> temp){
+            if (left<right) {
+                int mid = (left + right) / 2;
+                // Merge sort in left
+                sort(arrayList, left, mid, temp);
+                // Merge sort in right
+                sort(arrayList, mid + 1, right, temp);
+                // Merge the left and right ordered sub-array
+                merge(arrayList, left, mid, right, temp);
+            }
+        }
+        private void merge(ArrayList<Integer> arrayList, int left, int mid, int right, ArrayList<Integer> temp){
+            // Pointer in left
+            int ptLeft = left;
+            // Pointer in right
+            int ptRight = mid+1;
+            // Pointer in temp array
+            int ptTemp = 0;
+
+            // Use elements in original array to fill the temp array in order
+            while(ptLeft<=mid && ptRight<=right){
+                if (arrayList.get(ptLeft)<=arrayList.get(ptRight)){
+                    temp.set(ptTemp, arrayList.get(ptLeft));
+                    ptTemp += 1;
+                    ptLeft += 1;
+                }
+                else{
+                    temp.set(ptTemp, arrayList.get(ptRight));
+                    ptTemp += 1;
+                    ptRight += 1;
+                }
+            }
+
+            // Use the rest elements in left sub-array to fill the temp array
+            while(ptLeft<=mid){
+                temp.set(ptTemp, arrayList.get(ptLeft));
+                ptTemp += 1;
+                ptLeft += 1;
+            }
+
+            // Use the rest elements in right sub-array to fill the temp array
+            while(ptRight<=right){
+                temp.set(ptTemp, arrayList.get(ptRight));
+                ptTemp += 1;
+                ptRight += 1;
+            }
         }
 
     }

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e90b560b-dc12-4f1e-8e33-66242e8171aa" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/SerialSorting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SerialSorting.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -22,8 +23,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/SerialSorting.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="583">
-              <caret line="195" column="26" selection-start-line="195" selection-start-column="26" selection-end-line="195" selection-end-column="26" />
+            <state relative-caret-position="2838">
+              <caret line="210" column="45" selection-start-line="210" selection-start-column="45" selection-end-line="210" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#600#601#0" expanded="true" />
@@ -39,6 +40,7 @@
                 <element signature="e#2573#2582#0" expanded="true" />
                 <element signature="e#2652#2653#0" expanded="true" />
                 <element signature="e#2720#2721#0" expanded="true" />
+                <element signature="e#4763#4772#0" expanded="true" />
                 <element signature="e#2983#2984#0" expanded="true" />
                 <element signature="e#3051#3052#0" expanded="true" />
                 <element signature="e#5159#5168#0" expanded="true" />
@@ -137,7 +139,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545987115325" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545988555176" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -218,8 +220,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/SerialSorting.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="583">
-          <caret line="195" column="26" selection-start-line="195" selection-start-column="26" selection-end-line="195" selection-end-column="26" />
+        <state relative-caret-position="2838">
+          <caret line="210" column="45" selection-start-line="210" selection-start-column="45" selection-end-line="210" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#600#601#0" expanded="true" />
@@ -235,6 +237,7 @@
             <element signature="e#2573#2582#0" expanded="true" />
             <element signature="e#2652#2653#0" expanded="true" />
             <element signature="e#2720#2721#0" expanded="true" />
+            <element signature="e#4763#4772#0" expanded="true" />
             <element signature="e#2983#2984#0" expanded="true" />
             <element signature="e#3051#3052#0" expanded="true" />
             <element signature="e#5159#5168#0" expanded="true" />
