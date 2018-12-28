@@ -1,3 +1,11 @@
+/**
+ * @projectName Parallel_Serial_Sorting
+ * @fileName FileOperator
+ * @auther Qiaoyi Yin
+ * @time 2018-12-28 23:04
+ * @function A method integrated with file writer and reader
+ */
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;

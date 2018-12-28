@@ -1,3 +1,11 @@
+/**
+ * @projectName Parallel_Serial_Sorting
+ * @fileName ArgsParser
+ * @auther Qiaoyi Yin
+ * @time 2018-12-28 23:02
+ * @function Arguments parsing method
+ */
+
 import org.apache.commons.cli.*;
 
 import org.apache.commons.cli.ParseException;
