@@ -20,9 +20,11 @@ public class ArgsParser {
         options.addOption("sq", "serial quick sorting", false, "The serial quick sorting");
         options.addOption("se", "serial enumeration sorting", false, "The serial enumeration sorting");
         options.addOption("sm", "serial merge sorting", false, "The serial merge sorting");
+
         options.addOption("pq", "parallel quick sorting", false, "The parallel quick sorting");
         options.addOption("pe", "parallel enumeration sorting", false, "The parallel enumeration sorting");
         options.addOption("pm", "parallel merge sorting", false, "The parallel merge sorting");
+        options.addOption("t", "thread max number", false, "The maximum number of threads that can be created");
 
         options.addOption("s", "source data path", true, "The data source");
         options.addOption("r", "result storage path", true, "The result file");
@@ -32,12 +34,13 @@ public class ArgsParser {
 
         if (this.commandLine.hasOption("h")) {
             System.out.println("Simple User Manual:");
-            System.out.println("                  : -sq         open the serial quick sorting");
-            System.out.println("                  : -se         open the serial enumeration sorting");
-            System.out.println("                  : -sm         open the serial merge sorting");
-            System.out.println("                  : -pq         open the parallel quick sorting");
-            System.out.println("                  : -pe         open the parallel enumeration sorting");
-            System.out.println("                  : -pm         open the parallel merge sorting");
+            System.out.println("                  : -sq         enable the serial quick sorting");
+            System.out.println("                  : -se         enable the serial enumeration sorting");
+            System.out.println("                  : -sm         enable the serial merge sorting");
+            System.out.println("                  : -pq         enable the parallel quick sorting");
+            System.out.println("                  : -pe         enable the parallel enumeration sorting");
+            System.out.println("                  : -pm         enable the parallel merge sorting");
+            System.out.println("                  : -t          the maximum number of threads that can be created");
             System.out.println("                  : -s          input the data source path");
             System.out.println("                  : -r          input the result storage path");
             System.out.println("                  : -h          see the simple user manual");
@@ -77,6 +80,15 @@ public class ArgsParser {
         }
         else
             return SortingKind.NONE;
+    }
+
+    public int getThreadMaxNum(){
+        if (this.commandLine.hasOption("pq")
+                || this.commandLine.hasOption("pe")
+                || this.commandLine.hasOption("pm")){
+            return Integer.valueOf(this.commandLine.getOptionValue("t"));
+        }
+        return -1;
     }
 }
 

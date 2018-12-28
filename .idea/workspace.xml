@@ -8,11 +8,9 @@
   <component name="ChangeListManager">
     <list default="true" id="e90b560b-dc12-4f1e-8e33-66242e8171aa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/result.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ArgsParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ArgsParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/FileOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FileOperator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/ParalleSorting.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SerialSorting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SerialSorting.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/SortingKind.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/SortingKind.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ParallelSorting.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ParallelSorting.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -36,8 +34,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/SerialSorting.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1358">
-              <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+            <state relative-caret-position="419">
+              <caret line="321" column="62" lean-forward="true" selection-start-line="321" selection-start-column="62" selection-end-line="321" selection-end-column="62" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
@@ -70,9 +68,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/ArgsParser.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
+            <state relative-caret-position="468">
+              <caret line="82" column="5" lean-forward="true" selection-start-line="82" selection-start-column="5" selection-end-line="82" selection-end-column="5" />
               <folding>
+                <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
               </folding>
             </state>
@@ -82,19 +81,13 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/ParallelSorting.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="371" column="40" selection-start-line="371" selection-start-column="40" selection-end-line="371" selection-end-column="40" />
+            <state relative-caret-position="317">
+              <caret line="338" column="9" selection-start-line="338" selection-start-column="9" selection-end-line="338" selection-end-column="9" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="imports" expanded="true" />
-                <element signature="method#SerialSorting#0;class#ParallelSorting#0" />
-                <element signature="e#2609#2610#0" expanded="true" />
-                <element signature="e#2677#2678#0" expanded="true" />
                 <element signature="e#4212#4213#0" expanded="true" />
                 <element signature="e#4263#4264#0" expanded="true" />
-                <element signature="method#partition#0;class#QuickSort#0;class#ParallelSorting#0" />
-                <element signature="e#6489#6490#0" expanded="true" />
-                <element signature="class#MergeSort#0;class#ParallelSorting#0" />
                 <element signature="class#EnumerationSort#0;class#ParallelSorting#0" />
               </folding>
             </state>
@@ -122,8 +115,9 @@
       <replace>pivot</replace>
       <replace>tokenizer</replace>
       <replace>parallel</replace>
-      <replace>ParallelSorting</replace>
       <replace>SortingKind</replace>
+      <replace>ParallelSorting</replace>
+      <replace>enable</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -135,10 +129,10 @@
         <option value="$PROJECT_DIR$/src/main/java/Swap.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/test.java" />
-        <option value="$PROJECT_DIR$/src/main/java/ArgsParser.java" />
         <option value="$PROJECT_DIR$/src/main/java/FileOperator.java" />
         <option value="$PROJECT_DIR$/src/main/java/SortingKind.java" />
         <option value="$PROJECT_DIR$/src/main/java/SerialSorting.java" />
+        <option value="$PROJECT_DIR$/src/main/java/ArgsParser.java" />
         <option value="$PROJECT_DIR$/src/main/java/ParallelSorting.java" />
       </list>
     </option>
@@ -207,7 +201,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546015858609" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1546018755080" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -311,7 +305,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/result.txt" />
     <entry file="file://$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" />
     <entry file="file://$PROJECT_DIR$/target/classes/SerialSorting.class" />
     <entry file="jar:///Library/Java/JavaVirtualMachines/jdk1.8.0_191.jdk/Contents/Home/src.zip!/java/io/FileInputStream.java">
@@ -355,16 +348,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/ArgsParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="37" selection-start-line="5" selection-start-column="37" selection-end-line="5" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/FileOperator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -382,10 +365,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/result.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-21801" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/SerialSorting.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1358">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
+        <state relative-caret-position="419">
+          <caret line="321" column="62" lean-forward="true" selection-start-line="321" selection-start-column="62" selection-end-line="321" selection-end-column="62" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/ArgsParser.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="82" column="5" lean-forward="true" selection-start-line="82" selection-start-column="5" selection-end-line="82" selection-end-column="5" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
@@ -395,19 +394,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/ParallelSorting.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="371" column="40" selection-start-line="371" selection-start-column="40" selection-end-line="371" selection-end-column="40" />
+        <state relative-caret-position="317">
+          <caret line="338" column="9" selection-start-line="338" selection-start-column="9" selection-end-line="338" selection-end-column="9" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="imports" expanded="true" />
-            <element signature="method#SerialSorting#0;class#ParallelSorting#0" />
-            <element signature="e#2609#2610#0" expanded="true" />
-            <element signature="e#2677#2678#0" expanded="true" />
             <element signature="e#4212#4213#0" expanded="true" />
             <element signature="e#4263#4264#0" expanded="true" />
-            <element signature="method#partition#0;class#QuickSort#0;class#ParallelSorting#0" />
-            <element signature="e#6489#6490#0" expanded="true" />
-            <element signature="class#MergeSort#0;class#ParallelSorting#0" />
             <element signature="class#EnumerationSort#0;class#ParallelSorting#0" />
           </folding>
         </state>

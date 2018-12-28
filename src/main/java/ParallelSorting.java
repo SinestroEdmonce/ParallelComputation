@@ -17,15 +17,16 @@ public class ParallelSorting {
     private SortingKind sortingKind = SortingKind.NONE;
     private ArrayList<Integer> dataSet;
     private ArrayList<Integer> result = null;
-
+    private int threadMaxNum;
     /**
      * Initialize the class instance
      * @param kind
      * @param resource
      */
-    public ParallelSorting(SortingKind kind, ArrayList<Integer> resource){
+    public ParallelSorting(SortingKind kind, ArrayList<Integer> resource, int threadMaxNum){
         this.sortingKind = kind;
         this.dataSet = new ArrayList<Integer>(resource);
+        this.threadMaxNum = threadMaxNum;
     }
 
     /**
@@ -67,24 +68,24 @@ public class ParallelSorting {
 
         switch (this.sortingKind){
             case P_QUICK: {
-                QuickSort quickSort = new QuickSort(this.dataSet);
+                QuickSort quickSort = new QuickSort(this.dataSet, this.threadMaxNum);
                 this.result = new ArrayList<Integer>(quickSort.sorting());
                 break;
             }
             case P_MERGE: {
-                MergeSort mergeSort = new MergeSort(this.dataSet);
+                MergeSort mergeSort = new MergeSort(this.dataSet, this.threadMaxNum);
                 this.result = new ArrayList<Integer>(mergeSort.sorting());
                 break;
             }
             case P_ENUM: {
-                EnumerationSort enumerationSort = new EnumerationSort(this.dataSet);
+                EnumerationSort enumerationSort = new EnumerationSort(this.dataSet, this.threadMaxNum);
                 this.result = new ArrayList<Integer>(enumerationSort.sorting());
                 break;
             }
             case NONE: default: {
                 System.out.println("No selection has been made! Default mode will be QuickSort");
 
-                QuickSort quickSort = new ParallelSorting.QuickSort(this.dataSet);
+                QuickSort quickSort = new ParallelSorting.QuickSort(this.dataSet, this.threadMaxNum);
                 this.result = new ArrayList<Integer>(quickSort.sorting());
                 break;
             }
@@ -99,9 +100,11 @@ public class ParallelSorting {
     class QuickSort {
         private ArrayList<Integer> data;
         private ArrayList<Integer> result;
+        private int threadMaxNum;
 
-        public QuickSort(ArrayList<Integer> resource){
+        public QuickSort(ArrayList<Integer> resource, int threadMaxNum){
             this.data = new ArrayList<Integer>(resource);
+            this.threadMaxNum = threadMaxNum;
         }
 
         public ArrayList<Integer> sorting(){
@@ -113,7 +116,7 @@ public class ParallelSorting {
             long startTime = System.currentTimeMillis();
 
             // Parallel computing part
-            QSort qSort = new QSort(this.result, 0, this.result.size()-1);
+            QSort qSort = new QSort(this.result, 0, this.result.size()-1, this.threadMaxNum);
             Thread mainThread = new Thread(qSort);
             mainThread.start();
 
@@ -135,18 +138,20 @@ public class ParallelSorting {
             private ArrayList<Integer> srcData;
             private int low;
             private int high;
+            private int threadNum;
 
-            public QSort(ArrayList<Integer> source, int low, int high){
+            public QSort(ArrayList<Integer> source, int low, int high, int threadMaxNum){
                 this.srcData = source;
                 this.high = high;
                 this.low = low;
+                this.threadNum = threadMaxNum;
             }
 
             public  ArrayList<Integer> getSrcData(){
                 return this.srcData;
             }
 
-            private void quickSort() {
+            private void parallelQuickSort() {
                 int pivot = -1;
 
                 if (low < high) {
@@ -154,8 +159,8 @@ public class ParallelSorting {
                     pivot = partition(this.srcData, this.low, this.high);
 
                     // Continue to sorting the rest
-                    QSort qSortSub1 = new QSort(this.srcData, this.low, pivot-1);
-                    QSort qSortSub2 = new QSort(this.srcData, pivot+1, this.high);
+                    QSort qSortSub1 = new QSort(this.srcData, this.low, pivot-1, this.threadNum-1);
+                    QSort qSortSub2 = new QSort(this.srcData, pivot+1, this.high, this.threadNum-1);
                     Thread subThread1 = new Thread(qSortSub1);
                     Thread subThread2 = new Thread(qSortSub2);
                     subThread1.start();
@@ -169,6 +174,19 @@ public class ParallelSorting {
                         e.printStackTrace();
                     }
 
+                }
+            }
+
+            private void quickSort(ArrayList<Integer> source, int low, int high){
+                int pivot = -1;
+
+                if (low<high){
+                    // Find the correct location of pivotKey
+                    pivot = partition(source, low, high);
+
+                    // Continue to sorting the rest
+                    quickSort(source, low, pivot-1);
+                    quickSort(source, pivot+1, high);
                 }
             }
 
@@ -206,7 +224,13 @@ public class ParallelSorting {
 
             @Override
             public void run() {
-                quickSort();
+                if (this.threadNum>1){
+                    parallelQuickSort();
+                }
+                else{
+                    quickSort(this.srcData, this.low, this.high);
+                }
+
             }
 
         }
@@ -217,15 +241,29 @@ public class ParallelSorting {
      */
     class MergeSort {
         private ArrayList<Integer> data;
+        private int threadMaxNum;
 
-        public MergeSort(ArrayList<Integer> resource){
+        public MergeSort(ArrayList<Integer> resource, int threadMaxNum){
             this.data = new ArrayList<Integer>(resource);
+            this.threadMaxNum = threadMaxNum;
         }
 
         public ArrayList<Integer> sorting(){
 
             // Calculate the program running time
             long startTime = System.currentTimeMillis();
+
+            // Parallel computing part
+            QuickSort.QSort qSort = new QuickSort.QSort(this.result, 0, this.result.size()-1, this.threadMaxNum);
+            Thread mainThread = new Thread(qSort);
+            mainThread.start();
+
+            try {
+                mainThread.join();
+            }
+            catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
             this.sort(this.data, 0, this.data.size()-1);
 
@@ -235,69 +273,70 @@ public class ParallelSorting {
             return this.data;
         }
 
-        private void sort(ArrayList<Integer> arrayList, int left,int right){
-            if (left<right) {
-                int mid = (left + right) / 2;
-                // Merge sort in left
-                this.sort(arrayList, left, mid);
-                // Merge sort in right
-                this.sort(arrayList, mid + 1, right);
-                // Merge the left and right ordered sub-array
-                this.merge(arrayList, left, mid, right);
+        class MSort implements Runnable {
+            private void sort(ArrayList<Integer> arrayList, int left, int right) {
+                if (left < right) {
+                    int mid = (left + right) / 2;
+                    // Merge sort in left
+                    this.sort(arrayList, left, mid);
+                    // Merge sort in right
+                    this.sort(arrayList, mid + 1, right);
+                    // Merge the left and right ordered sub-array
+                    this.merge(arrayList, left, mid, right);
+                }
             }
-        }
 
-        /**
-         * Merge the left and right ordered sub-array
-         * @param arrayList
-         * @param left
-         * @param mid
-         * @param right
-         */
-        private void merge(ArrayList<Integer> arrayList, int left, int mid, int right){
-            // Temp array to store the ordered results
-            int[] temp = new int[right - left + 1];
-            // Pointer in left
-            int ptLeft = left;
-            // Pointer in right
-            int ptRight = mid+1;
-            // Pointer in temp array
-            int ptTemp = 0;
+            /**
+             * Merge the left and right ordered sub-array
+             *
+             * @param arrayList
+             * @param left
+             * @param mid
+             * @param right
+             */
+            private void merge(ArrayList<Integer> arrayList, int left, int mid, int right) {
+                // Temp array to store the ordered results
+                int[] temp = new int[right - left + 1];
+                // Pointer in left
+                int ptLeft = left;
+                // Pointer in right
+                int ptRight = mid + 1;
+                // Pointer in temp array
+                int ptTemp = 0;
 
-            // Use elements in original array to fill the temp array in order
-            while(ptLeft<=mid && ptRight<=right){
-                if (arrayList.get(ptLeft)<=arrayList.get(ptRight)){
+                // Use elements in original array to fill the temp array in order
+                while (ptLeft <= mid && ptRight <= right) {
+                    if (arrayList.get(ptLeft) <= arrayList.get(ptRight)) {
+                        temp[ptTemp] = arrayList.get(ptLeft);
+                        ptTemp += 1;
+                        ptLeft += 1;
+                    } else {
+                        temp[ptTemp] = arrayList.get(ptRight);
+                        ptTemp += 1;
+                        ptRight += 1;
+                    }
+                }
+
+                // Use the rest elements in left sub-array to fill the temp array
+                while (ptLeft <= mid) {
                     temp[ptTemp] = arrayList.get(ptLeft);
                     ptTemp += 1;
                     ptLeft += 1;
                 }
-                else{
+
+                // Use the rest elements in right sub-array to fill the temp array
+                while (ptRight <= right) {
                     temp[ptTemp] = arrayList.get(ptRight);
                     ptTemp += 1;
                     ptRight += 1;
                 }
-            }
 
-            // Use the rest elements in left sub-array to fill the temp array
-            while(ptLeft<=mid){
-                temp[ptTemp] = arrayList.get(ptLeft);
-                ptTemp += 1;
-                ptLeft += 1;
-            }
-
-            // Use the rest elements in right sub-array to fill the temp array
-            while(ptRight<=right){
-                temp[ptTemp] = arrayList.get(ptRight);
-                ptTemp += 1;
-                ptRight += 1;
-            }
-
-            // Store the ordered elements in temp array
-            for(int idx=0; idx<temp.length; ++idx){
-                arrayList.set(left+idx, temp[idx]);
+                // Store the ordered elements in temp array
+                for (int idx = 0; idx < temp.length; ++idx) {
+                    arrayList.set(left + idx, temp[idx]);
+                }
             }
         }
-
     }
 
     /**
@@ -367,17 +406,19 @@ public class ParallelSorting {
 //        String inputFile = argsParser.getSrcPath();
 //        String outputFile = argsParser.getResPath();
 //        SortingKind sortingKind = argsParser.getSortingKind();
+//        int threadMaxNum = argsParser.getThreadMaxNum();
 
         String inputFile = "src/random.txt";
         String outputFile = "result.txt";
         SortingKind sortingKind = SortingKind.P_QUICK;
+        int threadMaxNum = 4;
 
         // Obtain the content in the source file
         FileOperator fileOperator = new FileOperator();
         ArrayList<Integer> sourceData = fileOperator.obtainSourceArray(inputFile);
 
         // Process the serial sorting methods
-        ParallelSorting sorting = new ParallelSorting(sortingKind, sourceData);
+        ParallelSorting sorting = new ParallelSorting(sortingKind, sourceData, threadMaxNum);
         sorting.sortAsRequired(outputFile);
 
         System.out.println("All parallel sorting methods have been finished.");
