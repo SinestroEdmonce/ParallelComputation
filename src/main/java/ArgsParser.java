@@ -33,18 +33,18 @@ public class ArgsParser {
         return null;
     }
 
-    public SerialSortingKind getSortingKind(){
+    public SortingKind getSortingKind(){
         if (this.commandLine.hasOption("q")){
-            return SerialSortingKind.S_QUICK;
+            return SortingKind.S_QUICK;
         }
         else if (this.commandLine.hasOption("e")){
-            return SerialSortingKind.S_ENUM;
+            return SortingKind.S_ENUM;
         }
         else if (this.commandLine.hasOption("m")){
-            return SerialSortingKind.S_MERGE;
+            return SortingKind.S_MERGE;
         }
         else
-            return SerialSortingKind.S_NONE;
+            return SortingKind.NONE;
     }
 }
 

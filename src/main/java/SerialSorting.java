@@ -3,13 +3,11 @@ import java.util.*;
 
 import org.apache.commons.cli.ParseException;
 
-enum SerialSortingKind { S_NONE, S_QUICK, S_ENUM, S_MERGE}
-
 /**
  * A class that implement serial sorting methods
  */
 public class SerialSorting {
-    private SerialSortingKind sortingKind = SerialSortingKind.S_NONE;
+    private SortingKind sortingKind = SortingKind.NONE;
     private ArrayList<Integer> dataSet;
     private ArrayList<Integer> result = null;
 
@@ -18,7 +16,7 @@ public class SerialSorting {
      * @param kind
      * @param resource
      */
-    public SerialSorting(SerialSortingKind kind, ArrayList<Integer> resource){
+    public SerialSorting(SortingKind kind, ArrayList<Integer> resource){
         this.sortingKind = kind;
         this.dataSet = new ArrayList<Integer>(resource);
     }
@@ -27,7 +25,7 @@ public class SerialSorting {
      * Reset the sorting kind
      * @param kind
      */
-    public void setSortingKind(SerialSortingKind kind){
+    public void setSortingKind(SortingKind kind){
         this.sortingKind = kind;
     }
 
@@ -43,7 +41,7 @@ public class SerialSorting {
      * Obtain the sorting kind
      * @return
      */
-    public SerialSortingKind getSortingKind(){
+    public SortingKind getSortingKind(){
         return this.sortingKind;
     }
 
@@ -76,7 +74,7 @@ public class SerialSorting {
                 this.result = new ArrayList<Integer>(enumerationSort.sorting());
                 break;
             }
-            case S_NONE: default: {
+            case NONE: default: {
                 System.out.println("No selection has been made! Default mode will be QuickSort");
 
                 QuickSort quickSort = new QuickSort(this.dataSet);
@@ -313,7 +311,7 @@ public class SerialSorting {
 
         String inputFile = argsParser.getSrcPath();
         String outputFile = argsParser.getResPath();
-        SerialSortingKind sortingKind = argsParser.getSortingKind();
+        SortingKind sortingKind = argsParser.getSortingKind();
 
         // Obtain the content in the source file
         FileOperator fileOperator = new FileOperator();
