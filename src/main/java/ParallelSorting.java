@@ -224,7 +224,7 @@ public class ParallelSorting {
 
             @Override
             public void run() {
-                if (this.threadNum>1){
+                if (this.threadNum > 1){
                     parallelQuickSort();
                 }
                 else{
@@ -254,8 +254,8 @@ public class ParallelSorting {
             long startTime = System.currentTimeMillis();
 
             // Parallel computing part
-            QuickSort.QSort qSort = new QuickSort.QSort(this.result, 0, this.result.size()-1, this.threadMaxNum);
-            Thread mainThread = new Thread(qSort);
+            MSort mSort = new MSort(this.data, 0, this.data.size()-1, this.threadMaxNum);
+            Thread mainThread = new Thread(mSort);
             mainThread.start();
 
             try {
@@ -265,22 +265,71 @@ public class ParallelSorting {
                 e.printStackTrace();
             }
 
-            this.sort(this.data, 0, this.data.size()-1);
-
             long interval = System.currentTimeMillis()-startTime;
-            System.out.println("Total time of serial merge sort: " + interval);
+            System.out.println("Total time of parallel merge sort: " + interval);
 
             return this.data;
         }
 
         class MSort implements Runnable {
-            private void sort(ArrayList<Integer> arrayList, int left, int right) {
+            private ArrayList<Integer> srcData;
+            private int left;
+            private int right;
+            private int threadNum;
+
+            public MSort(ArrayList<Integer> source, int left, int right, int threadMaxNum){
+                this.srcData = source;
+                this.right = right;
+                this.left = left;
+                this.threadNum = threadMaxNum;
+            }
+
+            @Override
+            public void run() {
+                if (this.threadNum > 1){
+                    parallelMergeSort();
+                }
+                else{
+                    mergeSort(this.srcData, this.left, this.right);
+                }
+
+            }
+
+            private void parallelMergeSort() {
                 if (left < right) {
                     int mid = (left + right) / 2;
+
                     // Merge sort in left
-                    this.sort(arrayList, left, mid);
+                    MSort qSortSub1 = new MSort(this.srcData, this.left, mid, this.threadNum-1);
                     // Merge sort in right
-                    this.sort(arrayList, mid + 1, right);
+                    MSort qSortSub2 = new MSort(this.srcData, mid+1, this.right, this.threadNum-1);
+
+                    // Create sub-threads to continue the task
+                    Thread subThread1 = new Thread(qSortSub1);
+                    Thread subThread2 = new Thread(qSortSub2);
+                    subThread1.start();
+                    subThread2.start();
+
+                    try {
+                        subThread1.join();
+                        subThread2.join();
+                    }
+                    catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Merge the left and right ordered sub-array
+                    this.merge(this.srcData, left, mid, right);
+                }
+            }
+
+            private void mergeSort(ArrayList<Integer> arrayList, int left,int right){
+                if (left<right) {
+                    int mid = (left + right) / 2;
+                    // Merge sort in left
+                    this.mergeSort(arrayList, left, mid);
+                    // Merge sort in right
+                    this.mergeSort(arrayList, mid + 1, right);
                     // Merge the left and right ordered sub-array
                     this.merge(arrayList, left, mid, right);
                 }
@@ -337,6 +386,7 @@ public class ParallelSorting {
                 }
             }
         }
+
     }
 
     /**
@@ -344,9 +394,11 @@ public class ParallelSorting {
      */
     class EnumerationSort {
         private ArrayList<Integer> data;
+        private int threadMaxNum;
 
-        public EnumerationSort(ArrayList<Integer> resource){
+        public EnumerationSort(ArrayList<Integer> resource, int threadMaxNum){
             this.data = new ArrayList<Integer>(resource);
+            this.threadMaxNum = threadMaxNum;
         }
 
         public ArrayList<Integer> sorting(){
@@ -366,9 +418,21 @@ public class ParallelSorting {
             }
 
             long interval = System.currentTimeMillis()-startTime;
-            System.out.println("Total time of serial enumeration sort: " + interval);
+            System.out.println("Total time of parallel enumeration sort: " + interval);
 
             return result;
+        }
+
+        class ESort implements Runnable {
+            private
+            public ESort(){
+
+            }
+            
+            @Override
+            public void run(){
+
+            }
         }
 
     }
@@ -410,8 +474,8 @@ public class ParallelSorting {
 
         String inputFile = "src/random.txt";
         String outputFile = "result.txt";
-        SortingKind sortingKind = SortingKind.P_QUICK;
-        int threadMaxNum = 4;
+        SortingKind sortingKind = SortingKind.P_MERGE;
+        int threadMaxNum = 3;
 
         // Obtain the content in the source file
         FileOperator fileOperator = new FileOperator();
