@@ -224,7 +224,7 @@ public class ParallelSorting {
 
             @Override
             public void run() {
-                if (this.threadNum > 1){
+                if (this.threadNum > 0){
                     parallelQuickSort();
                 }
                 else{
@@ -286,7 +286,7 @@ public class ParallelSorting {
 
             @Override
             public void run() {
-                if (this.threadNum > 1){
+                if (this.threadNum > 0){
                     parallelMergeSort();
                 }
                 else{
@@ -395,6 +395,7 @@ public class ParallelSorting {
     class EnumerationSort {
         private ArrayList<Integer> data;
         private int threadMaxNum;
+        private ArrayList<Integer> result;
 
         public EnumerationSort(ArrayList<Integer> resource, int threadMaxNum){
             this.data = new ArrayList<Integer>(resource);
@@ -402,37 +403,71 @@ public class ParallelSorting {
         }
 
         public ArrayList<Integer> sorting(){
-            ArrayList<Integer> result = new ArrayList<Integer>(this.data);
-            // Calculate the program running time
-            long startTime = System.currentTimeMillis();
+            this.result = new ArrayList<Integer>(this.data);
 
-            for (int idx=0; idx<this.data.size(); ++idx){
-                int finalPos = 0;
-                for (int itr=0; itr<this.data.size(); ++itr){
-                    if (this.data.get(idx)>this.data.get(itr)){
-                        finalPos += 1;
+            // Calculate the program running time
+            long interval = 0;
+
+            for (int idx=0; idx<=this.data.size()/threadMaxNum+1; ++idx){
+                ArrayList<Thread> threadList = new ArrayList<Thread>();
+                for (int itr=0; itr<threadMaxNum; ++itr){
+                    int curPos = idx*threadMaxNum+itr;
+                    if (curPos < this.data.size()){
+                        // Calculate the program running time
+                        long startTime = System.currentTimeMillis();
+
+                        ESort eSort = new ESort(this.data.get(curPos), this.result, this.data);
+                        Thread subThread = new Thread(eSort);
+                        subThread.start();
+                        threadList.add(subThread);
+
+                        interval += System.currentTimeMillis()-startTime;
                     }
                 }
-                int tmp = this.data.get(idx);
-                result.set(finalPos, tmp);
+
+                // Calculate the program running time
+                long startTime = System.currentTimeMillis();
+
+                // Parent thread will be await until the child threads have been finished
+                try {
+
+                    for (Thread thread: threadList) {
+                        thread.join();
+                    }
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                interval += System.currentTimeMillis()-startTime;
             }
 
-            long interval = System.currentTimeMillis()-startTime;
             System.out.println("Total time of parallel enumeration sort: " + interval);
-
-            return result;
+            return this.result;
         }
 
         class ESort implements Runnable {
-            private
-            public ESort(){
+            private ArrayList<Integer> result;
+            private ArrayList<Integer> srcData;
+            private int currentElement;
 
+            public ESort(int curElem, ArrayList<Integer> result, ArrayList<Integer> srcData){
+                this.result = result;
+                this.srcData = srcData;
+                this.currentElement = curElem;
             }
-            
+
             @Override
             public void run(){
-
+                int finalPos = 0;
+                for (int idx=0; idx<this.srcData.size(); ++idx){
+                    if (this.currentElement > this.srcData.get(idx)){
+                        finalPos += 1;
+                    }
+                }
+                this.result.set(finalPos, this.currentElement);
             }
+
         }
 
     }
@@ -460,30 +495,29 @@ public class ParallelSorting {
 
     public static void main(String []args){
         // Parse the arguments from the command line
-//        ArgsParser argsParser = new ArgsParser();
-//        try {
-//            argsParser.parseArgs(args);
-//        }catch (ParseException e){
-//            e.printStackTrace();
-//        }
-//
-//        String inputFile = argsParser.getSrcPath();
-//        String outputFile = argsParser.getResPath();
-//        SortingKind sortingKind = argsParser.getSortingKind();
-//        int threadMaxNum = argsParser.getThreadMaxNum();
+        ArgsParser argsParser = new ArgsParser();
+        try {
+            argsParser.parseArgs(args);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
 
-        String inputFile = "src/random.txt";
-        String outputFile = "result.txt";
-        SortingKind sortingKind = SortingKind.P_MERGE;
-        int threadMaxNum = 3;
+        String inputFile = argsParser.getSrcPath();
+        String outputFile = argsParser.getResPath();
+        SortingKind sortingKind = argsParser.getSortingKind();
+        int threadMaxNum = argsParser.getThreadMaxNum();
+        int step = argsParser.getStep();
 
         // Obtain the content in the source file
         FileOperator fileOperator = new FileOperator();
         ArrayList<Integer> sourceData = fileOperator.obtainSourceArray(inputFile);
 
-        // Process the serial sorting methods
-        ParallelSorting sorting = new ParallelSorting(sortingKind, sourceData, threadMaxNum);
-        sorting.sortAsRequired(outputFile);
+        for (int threadNum = threadMaxNum; threadNum>0; threadNum-=step) {
+            // Process the serial sorting methods
+            System.out.print(threadNum+": ");
+            ParallelSorting sorting = new ParallelSorting(sortingKind, sourceData, threadNum);
+            sorting.sortAsRequired(outputFile);
+        }
 
         System.out.println("All parallel sorting methods have been finished.");
     }

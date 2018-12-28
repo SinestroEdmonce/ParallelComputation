@@ -24,7 +24,8 @@ public class ArgsParser {
         options.addOption("pq", "parallel quick sorting", false, "The parallel quick sorting");
         options.addOption("pe", "parallel enumeration sorting", false, "The parallel enumeration sorting");
         options.addOption("pm", "parallel merge sorting", false, "The parallel merge sorting");
-        options.addOption("t", "thread max number", false, "The maximum number of threads that can be created");
+        options.addOption("t", "thread max number", true, "The maximum number of threads that can be created");
+        options.addOption("n", "number of steps", true, "The number that be added on the amount of threads every time");
 
         options.addOption("s", "source data path", true, "The data source");
         options.addOption("r", "result storage path", true, "The result file");
@@ -41,6 +42,7 @@ public class ArgsParser {
             System.out.println("                  : -pe         enable the parallel enumeration sorting");
             System.out.println("                  : -pm         enable the parallel merge sorting");
             System.out.println("                  : -t          the maximum number of threads that can be created");
+            System.out.println("                  : -n          The number that be added on the amount of threads every time");
             System.out.println("                  : -s          input the data source path");
             System.out.println("                  : -r          input the result storage path");
             System.out.println("                  : -h          see the simple user manual");
@@ -86,9 +88,23 @@ public class ArgsParser {
         if (this.commandLine.hasOption("pq")
                 || this.commandLine.hasOption("pe")
                 || this.commandLine.hasOption("pm")){
-            return Integer.valueOf(this.commandLine.getOptionValue("t"));
+            if (Integer.valueOf(this.commandLine.getOptionValue("t")) < 1)
+                return 1;
+            else
+                return Integer.valueOf(this.commandLine.getOptionValue("t"));
         }
         return -1;
     }
+
+    public int getStep(){
+        if (this.commandLine.hasOption("t")){
+            if (Integer.valueOf(this.commandLine.getOptionValue("n")) < 1)
+                return 1;
+            else
+                return Integer.valueOf(this.commandLine.getOptionValue("n"));
+        }
+        return -1;
+    }
+
 }
 
