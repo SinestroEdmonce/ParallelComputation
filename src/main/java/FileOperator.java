@@ -10,7 +10,7 @@ public class FileOperator {
     /**
      * Read one line every time from the given file
      */
-    public void readFileByLines(String inputName){
+    private void readFileByLines(String inputName){
         File file = new File(inputName);
         BufferedReader reader = null;
 
