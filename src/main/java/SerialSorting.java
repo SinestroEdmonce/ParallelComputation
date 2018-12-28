@@ -11,7 +11,7 @@ enum SerialSortingKind { S_NONE, S_QUICK, S_ENUM, S_MERGE}
 public class SerialSorting {
     private SerialSortingKind sortingKind = SerialSortingKind.S_NONE;
     private ArrayList<Integer> dataSet;
-    private ArrayList<Integer> result;
+    private ArrayList<Integer> result = null;
 
     /**
      * Initialize the class instance
