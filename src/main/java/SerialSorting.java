@@ -289,7 +289,7 @@ public class SerialSorting {
     }
 
     /**
-     *
+     * swap the two elements' location
      * @param array
      * @param low
      * @param high
