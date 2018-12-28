@@ -1,6 +1,8 @@
 import java.lang.*;
 import java.util.*;
 
+import org.apache.commons.cli.ParseException;
+
 enum SerialSortingKind { S_NONE, S_QUICK, S_ENUM, S_MERGE}
 
 /**
@@ -59,7 +61,7 @@ public class SerialSorting {
     public void sortAsRequired(String output){
 
         switch (this.sortingKind){
-            case S_ENUM: {
+            case S_QUICK: {
                 QuickSort quickSort = new QuickSort(this.dataSet);
                 this.result = new ArrayList<Integer>(quickSort.sorting());
                 break;
@@ -69,7 +71,7 @@ public class SerialSorting {
                 this.result = new ArrayList<Integer>(mergeSort.sorting());
                 break;
             }
-            case S_QUICK: {
+            case S_ENUM: {
                 EnumerationSort enumerationSort = new EnumerationSort(this.dataSet);
                 this.result = new ArrayList<Integer>(enumerationSort.sorting());
                 break;
@@ -168,28 +170,27 @@ public class SerialSorting {
         }
 
         public ArrayList<Integer> sorting(){
-            ArrayList<Integer> result = new ArrayList<Integer>(this.data);
-
+            
             // Calculate the program running time
             long startTime = System.currentTimeMillis();
 
-            this.sort(this.data, 0, this.data.size()-1, result);
+            this.sort(this.data, 0, this.data.size()-1);
 
             long interval = System.currentTimeMillis()-startTime;
             System.out.println("Total time of serial merge sort: " + interval);
 
-            return result;
+            return this.data;
         }
 
-        private void sort(ArrayList<Integer> arrayList, int left,int right, ArrayList<Integer> temp){
+        private void sort(ArrayList<Integer> arrayList, int left,int right){
             if (left<right) {
                 int mid = (left + right) / 2;
                 // Merge sort in left
-                this.sort(arrayList, left, mid, temp);
+                this.sort(arrayList, left, mid);
                 // Merge sort in right
-                this.sort(arrayList, mid + 1, right, temp);
+                this.sort(arrayList, mid + 1, right);
                 // Merge the left and right ordered sub-array
-                this.merge(arrayList, left, mid, right, temp);
+                this.merge(arrayList, left, mid, right);
             }
         }
 
@@ -199,9 +200,10 @@ public class SerialSorting {
          * @param left
          * @param mid
          * @param right
-         * @param temp
          */
-        private void merge(ArrayList<Integer> arrayList, int left, int mid, int right, ArrayList<Integer> temp){
+        private void merge(ArrayList<Integer> arrayList, int left, int mid, int right){
+            // Temp array to store the ordered results
+            int[] temp = new int[right - left + 1];
             // Pointer in left
             int ptLeft = left;
             // Pointer in right
@@ -212,12 +214,12 @@ public class SerialSorting {
             // Use elements in original array to fill the temp array in order
             while(ptLeft<=mid && ptRight<=right){
                 if (arrayList.get(ptLeft)<=arrayList.get(ptRight)){
-                    temp.set(ptTemp, arrayList.get(ptLeft));
+                    temp[ptTemp] = arrayList.get(ptLeft);
                     ptTemp += 1;
                     ptLeft += 1;
                 }
                 else{
-                    temp.set(ptTemp, arrayList.get(ptRight));
+                    temp[ptTemp] = arrayList.get(ptRight);
                     ptTemp += 1;
                     ptRight += 1;
                 }
@@ -225,16 +227,21 @@ public class SerialSorting {
 
             // Use the rest elements in left sub-array to fill the temp array
             while(ptLeft<=mid){
-                temp.set(ptTemp, arrayList.get(ptLeft));
+                temp[ptTemp] = arrayList.get(ptLeft); 
                 ptTemp += 1;
                 ptLeft += 1;
             }
 
             // Use the rest elements in right sub-array to fill the temp array
             while(ptRight<=right){
-                temp.set(ptTemp, arrayList.get(ptRight));
+                temp[ptTemp] = arrayList.get(ptRight);
                 ptTemp += 1;
                 ptRight += 1;
+            }
+
+            // Store the ordered elements in temp array
+            for(int idx=0; idx<temp.length; ++idx){
+                arrayList.set(left+idx, temp[idx]);
             }
         }
 
@@ -297,31 +304,24 @@ public class SerialSorting {
 
     public static void main(String []args){
         // Parse the arguments from the command line
-//        ArgsParser argsParser = new ArgsParser();
-//        try {
-//            argsParser.parseArgs(args);
-//        }catch (ParseException e){
-//            e.printStackTrace();
-//        }
-//
-//        String inputFile = argsParser.getSrcPath();
-//        String outputFile = argsParser.getResPath();
+        ArgsParser argsParser = new ArgsParser();
+        try {
+            argsParser.parseArgs(args);
+        }catch (ParseException e){
+            e.printStackTrace();
+        }
 
-        String inputFile = "src/random.txt";
-        String outputFile = "./result.txt";
+        String inputFile = argsParser.getSrcPath();
+        String outputFile = argsParser.getResPath();
+        SerialSortingKind sortingKind = argsParser.getSortingKind();
 
         // Obtain the content in the source file
         FileOperator fileOperator = new FileOperator();
         ArrayList<Integer> sourceData = fileOperator.obtainSourceArray(inputFile);
 
         // Process the serial sorting methods
-        SerialSorting quickSort = new SerialSorting(SerialSortingKind.S_QUICK, sourceData);
-        //SerialSorting mergeSort = new SerialSorting(SerialSortingKind.S_MERGE, sourceData);
-        //SerialSorting enumerationSort = new SerialSorting(SerialSortingKind.S_ENUM, sourceData);
-
-        quickSort.sortAsRequired(outputFile);
-        //mergeSort.sortAsRequired(outputFile);
-        //enumerationSort.sortAsRequired(outputFile);
+        SerialSorting sorting = new SerialSorting(sortingKind, sourceData);
+        sorting.sortAsRequired(outputFile);
 
         System.out.println("All serial sorting methods have been finished.");
     }
