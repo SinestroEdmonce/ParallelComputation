@@ -180,8 +180,20 @@ public class SerialSorting {
         }
 
         public ArrayList<Integer> sorting(){
-            int pivot = -1;
-            int
+            ArrayList<Integer> result = new ArrayList<Integer>(this.data);
+
+            for (int idx=0; idx<this.data.size(); ++idx){
+                int finalPos = 0;
+                for (int itr=0; itr<this.data.size(); ++itr){
+                    if (this.data.get(idx)>this.data.get(itr)){
+                        finalPos += 1;
+                    }
+                }
+                int tmp = this.data.get(idx);
+                result.set(finalPos, tmp);
+            }
+
+            return result;
         }
 
     }
@@ -190,7 +202,7 @@ public class SerialSorting {
      *
      */
     public void printResult(){
-        
+
     }
 
     /**
