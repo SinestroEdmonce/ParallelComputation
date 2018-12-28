@@ -1,7 +1,4 @@
-import org.apache.commons.cli.ParseException;
-
 import java.lang.*;
-import java.math.*;
 import java.util.*;
 
 enum SerialSortingKind { S_NONE, S_QUICK, S_ENUM, S_MERGE}
@@ -300,15 +297,18 @@ public class SerialSorting {
 
     public static void main(String []args){
         // Parse the arguments from the command line
-        ArgsParser argsParser = new ArgsParser();
-        try {
-            argsParser.parseArgs(args);
-        }catch (ParseException e){
-            e.printStackTrace();
-        }
+//        ArgsParser argsParser = new ArgsParser();
+//        try {
+//            argsParser.parseArgs(args);
+//        }catch (ParseException e){
+//            e.printStackTrace();
+//        }
+//
+//        String inputFile = argsParser.getSrcPath();
+//        String outputFile = argsParser.getResPath();
 
-        String inputFile = argsParser.getSrcPath();
-        String outputFile = argsParser.getResPath();
+        String inputFile = "src/random.txt";
+        String outputFile = "./result.txt";
 
         // Obtain the content in the source file
         FileOperator fileOperator = new FileOperator();
@@ -316,12 +316,12 @@ public class SerialSorting {
 
         // Process the serial sorting methods
         SerialSorting quickSort = new SerialSorting(SerialSortingKind.S_QUICK, sourceData);
-        SerialSorting mergeSort = new SerialSorting(SerialSortingKind.S_MERGE, sourceData);
-        SerialSorting enumerationSort = new SerialSorting(SerialSortingKind.S_ENUM, sourceData);
+        //SerialSorting mergeSort = new SerialSorting(SerialSortingKind.S_MERGE, sourceData);
+        //SerialSorting enumerationSort = new SerialSorting(SerialSortingKind.S_ENUM, sourceData);
 
         quickSort.sortAsRequired(outputFile);
-        mergeSort.sortAsRequired(outputFile);
-        enumerationSort.sortAsRequired(outputFile);
+        //mergeSort.sortAsRequired(outputFile);
+        //enumerationSort.sortAsRequired(outputFile);
 
         System.out.println("All serial sorting methods have been finished.");
     }
