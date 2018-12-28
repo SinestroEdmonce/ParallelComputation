@@ -6,7 +6,7 @@ import java.util.*;
 enum SerialSortingKind { S_NONE, S_QUICK, S_ENUM, S_MERGE}
 
 /**
- *
+ * A class that implement serial sorting methods
  */
 public class SerialSorting {
     private SerialSortingKind sortingKind = SerialSortingKind.S_NONE;
@@ -101,9 +101,16 @@ public class SerialSorting {
         public ArrayList<Integer> sorting(){
             int lowPos = 0;
             int highPos = this.data.size()-1;
-
             ArrayList<Integer> res = new ArrayList<Integer>(this.data);
+
+            // Calculate the program running time
+            long startTime = System.currentTimeMillis();
+
             this.quickSort(res, lowPos, highPos);
+
+            long interval = System.currentTimeMillis()-startTime;
+            System.out.println("Total time of serial quick sort: " + interval);
+
             return res;
         }
 
@@ -164,7 +171,15 @@ public class SerialSorting {
 
         public ArrayList<Integer> sorting(){
             ArrayList<Integer> result = new ArrayList<Integer>(this.data);
-            sort(this.data, 0, this.data.size()-1, result);
+
+            // Calculate the program running time
+            long startTime = System.currentTimeMillis();
+
+            this.sort(this.data, 0, this.data.size()-1, result);
+
+            long interval = System.currentTimeMillis()-startTime;
+            System.out.println("Total time of serial merge sort: " + interval);
+
             return result;
         }
 
@@ -172,13 +187,22 @@ public class SerialSorting {
             if (left<right) {
                 int mid = (left + right) / 2;
                 // Merge sort in left
-                sort(arrayList, left, mid, temp);
+                this.sort(arrayList, left, mid, temp);
                 // Merge sort in right
-                sort(arrayList, mid + 1, right, temp);
+                this.sort(arrayList, mid + 1, right, temp);
                 // Merge the left and right ordered sub-array
-                merge(arrayList, left, mid, right, temp);
+                this.merge(arrayList, left, mid, right, temp);
             }
         }
+
+        /**
+         * Merge the left and right ordered sub-array
+         * @param arrayList
+         * @param left
+         * @param mid
+         * @param right
+         * @param temp
+         */
         private void merge(ArrayList<Integer> arrayList, int left, int mid, int right, ArrayList<Integer> temp){
             // Pointer in left
             int ptLeft = left;
@@ -230,6 +254,8 @@ public class SerialSorting {
 
         public ArrayList<Integer> sorting(){
             ArrayList<Integer> result = new ArrayList<Integer>(this.data);
+            // Calculate the program running time
+            long startTime = System.currentTimeMillis();
 
             for (int idx=0; idx<this.data.size(); ++idx){
                 int finalPos = 0;
@@ -241,6 +267,9 @@ public class SerialSorting {
                 int tmp = this.data.get(idx);
                 result.set(finalPos, tmp);
             }
+
+            long interval = System.currentTimeMillis()-startTime;
+            System.out.println("Total time of serial enumeration sort: " + interval);
 
             return result;
         }
