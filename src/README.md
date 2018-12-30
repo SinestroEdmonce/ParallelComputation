@@ -20,9 +20,9 @@
                 (1.1)P_id call quicksort(data,i,j)
             else
                 (1.2)P_id: r=partition(data,i,j)
-                (1.3)P_id send data[r+1,j] to P_id+2􏰀􏰁􏰂^m‐1
+                (1.3)P_id send data[r+1,j] to P_id+2^m‐1
                 (1.4)para_quicksort(data,i,r‐1,m‐1,id)
-                 (1.5)para_quicksort(data,r+1,j,m‐1,id+2^m􏰀􏰁􏰂‐1)
+                (1.5)para_quicksort(data,r+1,j,m‐1,id+2^m‐1)
                 (1.6)P_id+2􏰀^m‐1 send data[r+1,j] back to P_id
             end if
         End
@@ -44,10 +44,10 @@
                 (1.1)P_id call mergesort(data,i,j)
             else
                 (1.2)mid = (i+j)/2
-                (1.3)P_id send data[i,mid] to P_id+2􏰀􏰁􏰂^m‐1
-                (1.4)P_id send data[i,mid] to P_id+2􏰀􏰁􏰂^m
-                (1.5)para_mergesort(data,i,mid,m‐1,P_i+2􏰀􏰁􏰂^m)
-                (1.6)para_mergesort(data,mid+1,j,m‐1,id+2􏰀􏰁􏰂^m‐1)
+                (1.3)P_id send data[i,mid] to P_id+2^m‐1
+                (1.4)P_id send data[i,mid] to P_id+2^m
+                (1.5)para_mergesort(data,i,mid,m‐1,P_i+2^m)
+                (1.6)para_mergesort(data,mid+1,j,m‐1,id+2^m‐1)
                 (1.7)P_id+2^m􏰀‐1 send data[i,mid] back to P_id
                 (1.8)P_id+2􏰀^m send data[mid+1,j] back to P_id
                 (1.9)P_id: merge(data,i,j)
