@@ -85,13 +85,13 @@
 
 ### 并行化算法在单核或多核下时间与线程的关系图
 
-1. 下图展示了快速排序和归并排序的并行化算法的运行耗时与线程之间的关系，不难发现每次程序运行一开始耗时都比串行的算法要更多，但是随着程序反复运行，操作系统可能提升了该程序优先级，分配了多核，导致后续的耗时逐渐下降。可能进入多核运算。
+1. 下图展示了快速排序和归并排序的并行化算法的运行耗时与线程之间的关系，不难发现每次程序运行一开始耗时都比串行的算法要更多，可能是由于单核运行所以线程切换消耗大量时间，但是随着程序反复运行，操作系统可能提升了该程序优先级，分配了多核，导致后续的耗时逐渐下降。可能进入多核运算。
 
-    ![img](https://github.com/SinestroEdmonce/MyCompiler/raw/master/Lab2/Img/Crossing%20List.png)
+    ![img](https://github.com/SinestroEdmonce/ParallelComputingProject/raw/master/src/Img/Threads-Times_Q_M.png)
 
 2. 下图展示了枚举排序的并行化算法的运行耗时与线程之间的关系，可以发现随着线程数的增加，大体趋势是耗时不断下降然后趋于稳定（线程切换耗时基本抵消多线程并行带来的收益）。
 
-    ![img](https://github.com/SinestroEdmonce/MyCompiler/raw/master/Lab2/Img/Crossing%20List.png)
+    ![img](https://github.com/SinestroEdmonce/ParallelComputingProject/raw/master/src/Img/Threads-Times_E.png)
 
 ### 技术要点
 
