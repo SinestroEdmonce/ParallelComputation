@@ -1,4 +1,4 @@
-# ParallelComputingProject
+# Parallel Computing Project
 
 #### Brief Introduction
 
